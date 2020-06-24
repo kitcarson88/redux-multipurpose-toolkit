@@ -1,0 +1,15 @@
+{
+  "name": "@redux-multipurpose/saga-epic",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "redux-saga": "^1.1.3",
+    "redux-observable-es6-compat": "^1.2.1"
+  },
+  "dependencies": {
+    "tslib": "^1.10.0"
+  },
+  "bundleDependencies": [
+    "redux-saga",
+    "redux-observable-es6-compat"
+  ]
+}

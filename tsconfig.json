@@ -27,6 +27,10 @@
       "@redux-multipurpose/toolkit": [
         "dist/redux-multipurpose/toolkit/redux-multipurpose-toolkit",
         "dist/redux-multipurpose/toolkit"
+      ],
+      "@redux-multipurpose/saga-epic": [
+        "dist/redux-multipurpose/saga-epic/redux-multipurpose-saga-epic",
+        "dist/redux-multipurpose/saga-epic"
       ]
     }
   },

@@ -43,46 +43,6 @@
         }
       }
     },
-    "@redux-multipurpose/saga": {
-      "projectType": "library",
-      "root": "projects/redux-multipurpose/saga",
-      "sourceRoot": "projects/redux-multipurpose/saga/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/redux-multipurpose/saga/tsconfig.lib.json",
-            "project": "projects/redux-multipurpose/saga/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/redux-multipurpose/saga/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/redux-multipurpose/saga/src/test.ts",
-            "tsConfig": "projects/redux-multipurpose/saga/tsconfig.spec.json",
-            "karmaConfig": "projects/redux-multipurpose/saga/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/redux-multipurpose/saga/tsconfig.lib.json",
-              "projects/redux-multipurpose/saga/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
     "@redux-multipurpose/toolkit": {
       "projectType": "library",
       "root": "projects/redux-multipurpose/toolkit",
@@ -115,6 +75,46 @@
             "tsConfig": [
               "projects/redux-multipurpose/toolkit/tsconfig.lib.json",
               "projects/redux-multipurpose/toolkit/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "@redux-multipurpose/saga-epic": {
+      "projectType": "library",
+      "root": "projects/redux-multipurpose/saga-epic",
+      "sourceRoot": "projects/redux-multipurpose/saga-epic/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/redux-multipurpose/saga-epic/tsconfig.lib.json",
+            "project": "projects/redux-multipurpose/saga-epic/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/redux-multipurpose/saga-epic/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/redux-multipurpose/saga-epic/src/test.ts",
+            "tsConfig": "projects/redux-multipurpose/saga-epic/tsconfig.spec.json",
+            "karmaConfig": "projects/redux-multipurpose/saga-epic/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/redux-multipurpose/saga-epic/tsconfig.lib.json",
+              "projects/redux-multipurpose/saga-epic/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
