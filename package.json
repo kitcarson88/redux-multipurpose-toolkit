@@ -4,6 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "redux-fix": "node ./scripts/redux-missing-symbol-observable-fix.js",
+    "redux-persist-fix": "node ./scripts/redux-persist-react-fix.js",
+    "prebuild": "npm run redux-fix && npm run redux-persist-fix",
     "build": "ng build @redux-multipurpose/core && ng build @redux-multipurpose/toolkit && ng build @redux-multipurpose/saga-epic && ng build @redux-multipurpose/persist",
     "build-watch": "ng build @redux-multipurpose/core --watch",
     "test": "ng test",

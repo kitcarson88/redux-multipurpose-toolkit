@@ -10,6 +10,7 @@
     "tslib": "^1.10.0"
   },
   "bundleDependencies": [
+    "redux",
     "redux-persist",
     "redux-persist-transform-encrypt"
   ]

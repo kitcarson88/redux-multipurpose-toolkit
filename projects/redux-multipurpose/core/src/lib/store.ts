@@ -67,6 +67,7 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
 
         if (rootEpic)
         {
+            console.log("ROOT EPIC: ", rootEpic);
             epicMiddleware = createEpicMiddleware<FluxStandardAction<any, any>, FluxStandardAction<any, any>, any>();
             middlewares = [...middlewares, epicMiddleware];
         }
