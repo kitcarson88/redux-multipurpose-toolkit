@@ -1,8 +1,14 @@
 import { Observable } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 
-import { Selector, Action, createSelector } from '@reduxjs/toolkit';
+import { Selector, Action, createSelector, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { Store } from 'redux';
+import { FluxStandardAction } from 'flux-standard-action';
+import { createEpicMiddleware } from 'redux-observable-es6-compat';
+import createSagaMiddleware from 'redux-saga';
+import { createLogger } from 'redux-logger';
+
+import { MultipurposeStoreOptions } from './entities/store-options';
 
 const genericSelector = (paths: string[]) => {
     return createSelector(
@@ -24,13 +30,78 @@ const genericSelector = (paths: string[]) => {
     );
 };
 
-var reduxStore: Store;
+const initializeMiddlewareArray = (options?) => {
+     return options?
+        [...getDefaultMiddleware(options)] : 
+        [...getDefaultMiddleware()];
+};
 
-export const initializeStore = (store) => {
-    if (!reduxStore)
-        reduxStore = store;
-    else
+//Store instance
+var reduxStore: Store;
+export const initializeStore = (options: MultipurposeStoreOptions) => {
+    if (reduxStore)
         throw Error("A redux store is initialized yet. Cannot initialize another one");
+
+    const {
+        reducer,
+        devTools,
+        middleware,
+        enhancers,
+        preloadedState,
+        defaultMiddlewareOptions,
+        rootSaga,
+        rootEpic,
+        logLevel
+    } = options;
+
+    let middlewares = [];
+    let epicMiddleware;
+    let sagaMiddleware;
+
+    if (middleware || rootSaga || rootEpic)
+    {
+        initializeMiddlewareArray(defaultMiddlewareOptions);
+
+        if (middleware)
+            middlewares = [...middlewares, middleware];
+
+        if (rootEpic)
+        {
+            epicMiddleware = createEpicMiddleware<FluxStandardAction<any, any>, FluxStandardAction<any, any>, any>();
+            middlewares = [...middlewares, epicMiddleware];
+        }
+
+        if (rootSaga)
+        {
+            sagaMiddleware = createSagaMiddleware();
+            middlewares = [...middlewares, sagaMiddleware];
+        }
+
+        if (logLevel)
+        {
+            const loggerMiddleware = createLogger({ level: logLevel });
+            middlewares = [...middlewares, loggerMiddleware ];
+        }
+    }
+
+    const store = configureStore({
+        reducer,
+        devTools,
+        preloadedState,
+        middleware,
+        enhancers
+    });
+
+    //Executing epics
+    if (epicMiddleware)
+        epicMiddleware.run(rootEpic);
+
+    //Executing sagas
+    if (sagaMiddleware)
+        sagaMiddleware.run(rootSaga);
+
+    //Finally save store instance
+    reduxStore = store;
 };
 
 export const store = {

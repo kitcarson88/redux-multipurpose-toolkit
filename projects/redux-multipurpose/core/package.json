@@ -3,11 +3,19 @@
   "version": "0.0.1",
   "peerDependencies": {
     "@reduxjs/toolkit": "^1.4.0",
+    "flux-standard-action": "^2.1.1",
     "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
+    "redux-observable-es6-compat": "^1.2.1",
+    "redux-saga": "^1.1.3",
     "tslib": "^1.10.0"
   },
   "bundleDependencies": [
     "@reduxjs/toolkit",
-    "redux"
+    "flux-standard-action",
+    "redux",
+    "redux-logger",
+    "redux-observable-es6-compat",
+    "redux-saga"
   ]
 }
