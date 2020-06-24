@@ -3,3 +3,4 @@
  */
 
 export * from '@reduxjs/toolkit';
+export * from 'redux';

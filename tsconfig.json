@@ -31,6 +31,10 @@
       "@redux-multipurpose/saga-epic": [
         "dist/redux-multipurpose/saga-epic/redux-multipurpose-saga-epic",
         "dist/redux-multipurpose/saga-epic"
+      ],
+      "@redux-multipurpose/persist": [
+        "dist/redux-multipurpose/persist/redux-multipurpose-persist",
+        "dist/redux-multipurpose/persist"
       ]
     }
   },

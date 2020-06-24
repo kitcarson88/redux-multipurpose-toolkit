@@ -2,12 +2,14 @@
   "name": "@redux-multipurpose/toolkit",
   "version": "0.0.1",
   "peerDependencies": {
-    "@reduxjs/toolkit": "^1.4.0"
+    "@reduxjs/toolkit": "^1.4.0",
+    "redux": "^4.0.5"
   },
   "dependencies": {
     "tslib": "^1.10.0"
   },
   "bundleDependencies": [
-    "@reduxjs/toolkit"
+    "@reduxjs/toolkit",
+    "redux"
   ]
 }
