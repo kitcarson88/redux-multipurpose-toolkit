@@ -7,7 +7,9 @@
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-observable-es6-compat": "^1.2.1",
-    "redux-saga": "^1.1.3",
+    "redux-saga": "^1.1.3"
+  },
+  "dependencies": {
     "tslib": "^1.10.0"
   },
   "bundleDependencies": [
