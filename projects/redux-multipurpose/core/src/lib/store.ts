@@ -30,9 +30,9 @@ const genericSelector = (paths: string[]) => {
     );
 };
 
-const initializeMiddlewareArray = (options?) => {
-     return options?
-        [...getDefaultMiddleware(options)] : 
+const initializeWithDefaultMiddleware = (options?) => {
+    return options?
+        [...getDefaultMiddleware(options)] :
         [...getDefaultMiddleware()];
 };
 
@@ -45,43 +45,40 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
     const {
         reducer,
         devTools,
-        middleware,
+        middlewares,
         enhancers,
         preloadedState,
         defaultMiddlewareOptions,
-        rootSaga,
-        rootEpic,
+        sagas,
+        epics,
         logLevel
     } = options;
 
-    let middlewares = [];
+    let middleware = [];
     let epicMiddleware;
     let sagaMiddleware;
 
-    if (middleware || rootSaga || rootEpic || logLevel)
+    middleware = initializeWithDefaultMiddleware(defaultMiddlewareOptions);
+
+    if (middleware)
+        middleware = [...middleware, ...middlewares];
+
+    if (epics)
     {
-        initializeMiddlewareArray(defaultMiddlewareOptions);
+        epicMiddleware = createEpicMiddleware<FluxStandardAction<any, any>, FluxStandardAction<any, any>, any>();
+        middleware = [...middleware, epicMiddleware];
+    }
 
-        if (middleware)
-            middlewares = [...middlewares, middleware];
+    if (sagas)
+    {
+        sagaMiddleware = createSagaMiddleware();
+        middleware = [...middleware, sagaMiddleware];
+    }
 
-        if (rootEpic)
-        {
-            epicMiddleware = createEpicMiddleware<FluxStandardAction<any, any>, FluxStandardAction<any, any>, any>();
-            middlewares = [...middlewares, epicMiddleware];
-        }
-
-        if (rootSaga)
-        {
-            sagaMiddleware = createSagaMiddleware();
-            middlewares = [...middlewares, sagaMiddleware];
-        }
-
-        if (logLevel)
-        {
-            const loggerMiddleware = createLogger({ level: logLevel });
-            middlewares = [...middlewares, loggerMiddleware ];
-        }
+    if (logLevel)
+    {
+        const loggerMiddleware = createLogger({ level: logLevel });
+        middleware = [...middleware, loggerMiddleware ];
     }
 
     const store = configureStore({
@@ -93,12 +90,12 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
     });
 
     //Executing epics
-    /*if (epicMiddleware)
-        epicMiddleware.run(rootEpic);
+    if (epicMiddleware)
+        epicMiddleware.run(epics());
 
     //Executing sagas
     if (sagaMiddleware)
-        sagaMiddleware.run(rootSaga);*/
+        sagaMiddleware.run(sagas);
 
     //Finally save store instance
     reduxStore = store;
