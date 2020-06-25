@@ -12,10 +12,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "unlink": "cd dist/redux-multipurpose/core && npm unlink && cd ../../..",
+    "unlink": "cd dist/redux-multipurpose/core && npm unlink && cd ../angular-router && npm unlink && cd ../../..",
     "clean": "npm run unlink && rm -rf dist/ node_modules/ package-lock.json",
-    "link": "cd dist/redux-multipurpose/core && npm link && cd ../../..",
-    "pack": "cd dist/redux-multipurpose/core && npm pack && cd ../../..",
+    "link": "cd dist/redux-multipurpose/core && cd ../angular-router && npm link && npm link &&  cd ../../..",
+    "pack": "cd dist/redux-multipurpose/core && cd ../angular-router && npm pack && npm pack && cd ../../..",
     "build-link": "npm run build && npm run link",
     "build-pack": "npm run build && npm run pack"
   },

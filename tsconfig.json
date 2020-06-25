@@ -35,6 +35,10 @@
       "@redux-multipurpose/persist": [
         "dist/redux-multipurpose/persist/redux-multipurpose-persist",
         "dist/redux-multipurpose/persist"
+      ],
+      "@redux-multipurpose/angular-router": [
+        "dist/redux-multipurpose/angular-router/redux-multipurpose-angular-router",
+        "dist/redux-multipurpose/angular-router"
       ]
     }
   },
