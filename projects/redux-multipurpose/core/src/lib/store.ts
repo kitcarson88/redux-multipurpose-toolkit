@@ -58,7 +58,7 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
     let epicMiddleware;
     let sagaMiddleware;
 
-    if (middleware || rootSaga || rootEpic)
+    if (middleware || rootSaga || rootEpic || logLevel)
     {
         initializeMiddlewareArray(defaultMiddlewareOptions);
 
@@ -67,7 +67,6 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
 
         if (rootEpic)
         {
-            console.log("ROOT EPIC: ", rootEpic);
             epicMiddleware = createEpicMiddleware<FluxStandardAction<any, any>, FluxStandardAction<any, any>, any>();
             middlewares = [...middlewares, epicMiddleware];
         }
@@ -94,12 +93,12 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
     });
 
     //Executing epics
-    if (epicMiddleware)
+    /*if (epicMiddleware)
         epicMiddleware.run(rootEpic);
 
     //Executing sagas
     if (sagaMiddleware)
-        sagaMiddleware.run(rootSaga);
+        sagaMiddleware.run(rootSaga);*/
 
     //Finally save store instance
     reduxStore = store;
