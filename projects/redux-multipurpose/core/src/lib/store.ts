@@ -9,6 +9,7 @@ import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
 
 import { MultipurposeStoreOptions } from './entities/store-options';
+import { persistStore } from 'redux-persist';
 
 const genericSelector = (paths: string[]) => {
     return createSelector(
@@ -51,6 +52,7 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
         defaultMiddlewareOptions,
         sagas,
         epics,
+        enablePersistence,
         logLevel
     } = options;
 
@@ -96,6 +98,9 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
     //Executing sagas
     if (sagaMiddleware)
         sagaMiddleware.run(sagas);
+
+    if (enablePersistence)
+        persistStore(store);
 
     //Finally save store instance
     reduxStore = store;

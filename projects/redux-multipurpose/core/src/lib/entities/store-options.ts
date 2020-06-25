@@ -14,6 +14,7 @@ export interface MultipurposeStoreOptions<S = any, A extends Action = AnyAction>
         serializableCheck: boolean
     },
     sagas?: any,
-    epics?: any;
-    logLevel?: string;
+    epics?: any,
+    enablePersistence?: boolean,
+    logLevel?: string
 }
