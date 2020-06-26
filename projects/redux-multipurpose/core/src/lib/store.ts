@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 
-import { Selector, Action, configureStore, createSelector, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { Store } from 'redux';
+import { Selector, Action, configureStore, createSelector, getDefaultMiddleware, combineReducers } from '@reduxjs/toolkit';
+import { Store, Reducer, AnyAction } from 'redux';
 import { FluxStandardAction } from 'flux-standard-action';
 import { createEpicMiddleware } from 'redux-observable-es6-compat';
 import createSagaMiddleware from 'redux-saga';
@@ -39,12 +39,16 @@ const initializeWithDefaultMiddleware = (options?) => {
 
 //Store instance
 var reduxStore: Store;
+
+var staticReducers = {};
+var dynamicReducers = {};
+
 export const initializeStore = (options: MultipurposeStoreOptions) => {
     if (reduxStore)
         throw Error("A redux store is initialized yet. Cannot initialize another one");
 
     const {
-        reducer,
+        reducers,
         devTools,
         middlewares,
         enhancers,
@@ -89,8 +93,10 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
     else
         enhancer = [...enhancers];*/
 
+    staticReducers = reducers;
+
     const store = configureStore({
-        reducer,
+        reducer: combineReducers(reducers),
         devTools,
         preloadedState,
         middleware,
@@ -142,7 +148,19 @@ export const store = {
     dispatch: (action: Action | any) => {
         reduxStore.dispatch(action);
     },
-    attachReducers: (reducerOptions: any) => {
+    addReducer: <S = any, A extends Action = AnyAction>(key: string, reducer: Reducer<S, A>) => {
+        if (!key || dynamicReducers[key])
+            throw (`A reducer with key '${key}' is alreary injected. Injection aborted`);
+        
+        dynamicReducers[key] = reducer;
+        reduxStore.replaceReducer(combineReducers({ ...staticReducers, ...dynamicReducers }));
+    },
+    removeReducer: (key: string) => {
+        if (!key || !dynamicReducers[key])
+            throw (`No reducer with key '${key}' found. Remove aborted`);
+
+        delete dynamicReducers[key];
+        reduxStore.replaceReducer(combineReducers({ ...staticReducers, ...dynamicReducers }));
     }
 };
 
