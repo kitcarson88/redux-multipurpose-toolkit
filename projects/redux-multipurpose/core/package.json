@@ -2,8 +2,6 @@
   "name": "@redux-multipurpose/core",
   "version": "0.0.1",
   "peerDependencies": {
-    "@redux-dynostore/core": "^3.1.0",
-    "@redux-dynostore/redux-saga": "^3.1.0",
     "@reduxjs/toolkit": "^1.4.0",
     "flux-standard-action": "^2.1.1",
     "redux": "^4.0.5",
@@ -16,8 +14,6 @@
     "tslib": "^1.10.0"
   },
   "bundleDependencies": [
-    "@redux-dynostore/core",
-    "@redux-dynostore/redux-saga",
     "@reduxjs/toolkit",
     "flux-standard-action",
     "redux",

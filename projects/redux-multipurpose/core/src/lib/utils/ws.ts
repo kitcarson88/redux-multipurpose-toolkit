@@ -39,10 +39,10 @@ export const createWsInitialState = (substates: (WsState | string)[]) => {
 ////////////////// Actions utils
 
 //Thunk creator helper
-export const prepareThunk = (substate: string, id: string, callback: any) =>
+export const prepareThunk = (state: string, id: string, callback: any) =>
 {
     return createAsyncThunk(
-        substate + '/' + id,
+        state + '/' + id,
         callback
     );
 };

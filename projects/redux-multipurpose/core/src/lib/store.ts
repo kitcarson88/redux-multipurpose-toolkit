@@ -1,15 +1,15 @@
 import { Observable } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 
-import { Selector, Action, createSelector, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { Selector, Action, configureStore, createSelector, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { Store } from 'redux';
 import { FluxStandardAction } from 'flux-standard-action';
 import { createEpicMiddleware } from 'redux-observable-es6-compat';
 import createSagaMiddleware from 'redux-saga';
+import { persistStore } from 'redux-persist';
 import { createLogger } from 'redux-logger';
 
 import { MultipurposeStoreOptions } from './entities/store-options';
-import { persistStore } from 'redux-persist';
 
 const genericSelector = (paths: string[]) => {
     return createSelector(
@@ -83,6 +83,12 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
         middleware = [...middleware, loggerMiddleware ];
     }
 
+    /*let enhancer;
+    if (!enhancers)
+        enhancer = [];
+    else
+        enhancer = [...enhancers];*/
+
     const store = configureStore({
         reducer,
         devTools,
@@ -130,11 +136,13 @@ export const store = {
             return unsubscribe;
         })
     },
-    selectSync : <R, T>(selector: Selector<R, T>) => {
+    selectSync: <R, T>(selector: Selector<R, T>) => {
         return selector(reduxStore.getState());
     },
-    dispatch : (action: Action | any) => {
+    dispatch: (action: Action | any) => {
         reduxStore.dispatch(action);
+    },
+    attachReducers: (reducerOptions: any) => {
     }
 };
 

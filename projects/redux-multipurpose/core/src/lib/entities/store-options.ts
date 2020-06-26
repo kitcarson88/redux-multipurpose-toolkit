@@ -5,7 +5,7 @@ export interface MultipurposeStoreOptions<S = any, A extends Action = AnyAction>
     middlewares: any[],
     devTools: boolean,
     preloadedState?: DeepPartial<S extends any ? S : S>,
-    enhancers?: StoreEnhancer[] | ConfigureEnhancersCallback,
+    enhancers?: StoreEnhancer[],
     defaultMiddlewareOptions?: {
         thunk: boolean,
         immutableCheck: boolean,
