@@ -14,5 +14,6 @@ export interface MultipurposeStoreOptions<S = any, A extends Action = AnyAction>
     sagas?: any,
     epics?: any,
     enablePersistence?: boolean,
+    router: { key: string; reducer: Reducer, service }
     logLevel?: string
 }

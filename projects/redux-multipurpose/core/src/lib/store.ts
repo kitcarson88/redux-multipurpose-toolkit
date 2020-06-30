@@ -57,6 +57,7 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
         sagas,
         epics,
         enablePersistence,
+        router,
         logLevel
     } = options;
 
@@ -95,7 +96,7 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
 
     staticReducers = reducers;
 
-    const store = configureStore({
+    const newStore = configureStore({
         reducer: combineReducers(reducers),
         devTools,
         preloadedState,
@@ -112,10 +113,16 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
         sagaMiddleware.run(sagas);
 
     if (enablePersistence)
-        persistStore(store);
+        persistStore(newStore);
 
     //Finally save store instance
-    reduxStore = store;
+    reduxStore = newStore;
+
+    if (router)
+    {
+        store.addReducer(router.key, router.reducer);
+        router.service.init();
+    }
 };
 
 export const store = {
