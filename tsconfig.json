@@ -20,22 +20,6 @@
         "dist/redux-multipurpose/core/redux-multipurpose-core",
         "dist/redux-multipurpose/core"
       ],
-      "@redux-multipurpose/saga": [
-        "dist/redux-multipurpose/saga/redux-multipurpose-saga",
-        "dist/redux-multipurpose/saga"
-      ],
-      "@redux-multipurpose/toolkit": [
-        "dist/redux-multipurpose/toolkit/redux-multipurpose-toolkit",
-        "dist/redux-multipurpose/toolkit"
-      ],
-      "@redux-multipurpose/saga-epic": [
-        "dist/redux-multipurpose/saga-epic/redux-multipurpose-saga-epic",
-        "dist/redux-multipurpose/saga-epic"
-      ],
-      "@redux-multipurpose/persist": [
-        "dist/redux-multipurpose/persist/redux-multipurpose-persist",
-        "dist/redux-multipurpose/persist"
-      ],
       "@redux-multipurpose/angular-router": [
         "dist/redux-multipurpose/angular-router/redux-multipurpose-angular-router",
         "dist/redux-multipurpose/angular-router"
