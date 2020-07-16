@@ -1,3 +1,5 @@
+import { OnInit } from '@angular/core';
+
 import { Observable } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 
@@ -225,3 +227,34 @@ export const dispatch = () => {
         }
     }
 };
+
+interface BodyClassRequireOnInit extends OnInit {
+}
+
+interface TFunction { 
+  new(...args: any[]): BodyClassRequireOnInit;
+}
+
+export function ReducerInjector(reducers: { key: string, reducer: Reducer }[]): <T extends TFunction>(constructor: T) => T {
+    return function decorator<T extends TFunction>(constructor: T): T {
+        return class extends constructor
+        {
+            ngOnInit(): void
+            {
+                for (let i = 0; i < reducers.length; ++i)
+                {
+                    try
+                    {
+                        store.addReducer(reducers[i].key, reducers[i].reducer);
+                    }
+                    catch(error) {
+                        //No error, simply reducer was injected yet
+                    }
+                }
+
+                super.ngOnInit();
+            }
+        };
+    };
+}
+  
