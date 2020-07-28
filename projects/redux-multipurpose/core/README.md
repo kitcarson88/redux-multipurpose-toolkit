@@ -12,7 +12,16 @@ The Redux Multipurpose core package is intended to:
 - provide to the developer a @reduxjs/toolkit store, with some enhanced functionalities
 
 The store can be initialized simply with an `initializeStore()`, and then imported and used including the instance `store`.
-The initialization is based on [@reduxjs/toolkit](https://www.npmjs.com/package/@reduxjs/toolkit) `configureStore` method. Please refer to its documentation about reducers, enhancers, middlewares, preloaded state and dev tools configurations.
+The initialization is based on [@reduxjs/toolkit](https://www.npmjs.com/package/@reduxjs/toolkit) `configureStore` method. Please refer to [its documentation](https://github.com/reduxjs/redux-toolkit) about reducers, enhancers, middlewares, preloaded state and dev tools configurations.
+
+### Store
+Redux Multipurpose store includes these APIs:
+- `getState()`: provides a RxJs Observable with whole store state
+- `select()`: that lets to retrieve a specific store substate as RxJs Observable
+- `selectSync()`: similar to `select`, but returns the data directly, not as an Observable
+- `dispatch()`: that lets to dispatch to the store an action
+- `addReducer()`: that lets to add dynamically a new reducer to the store binding it with a string key
+- `removeReducer()`: that lets to remove a dynamic reducer previously added; it can't remove reducers not dynamically added 
 
 ### Included redux packages:
 Here the list of included redux packages. Please refer to their own documentations to customize their in app integration.
