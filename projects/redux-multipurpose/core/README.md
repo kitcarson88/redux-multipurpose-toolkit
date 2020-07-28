@@ -51,3 +51,11 @@ The object to be passed to router variable of `initializeStore` needs these para
 
 For Angular applications, an implementation is provided with @redux-multipurpose/angular-router package.
 
+#### Other utilities
+The utils directory contains some store utilities that can be used on store common substates configurations.
+
+The `ws` utils let the developer to easily create and configure a web service wrapper substate. It provides these methods:
+- `createWsInitialState`: that lets to create a tipical initial ws substate configuration for a specific data to retrieve from a web service, with `loading`, `error`, and `data` common state informations
+- `prepareThunk`: that prepares for a subdata of ws substate, a specific redux thunk to retrieve datas.
+- `prepareThunkActionReducers`: it creates the @reduxjs/toolkit slice for the specific subdata, to bind actions and the reducer with tipical state changes on web service call execution
+
