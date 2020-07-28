@@ -40,3 +40,14 @@ Similar to some [@angular-redux/store](https://www.npmjs.com/package/@angular-re
 - `get`: similar to select, it wraps previously described selectSync method to directly retrieve store substate
 - `dispatch`: binded to a class method, it lets to trigger an action dispatch; the method must return the action to be dispatched
 - `ReducerInjector` (only on Angular): binded to a component, it lets to dynamically add a reducer; it needs a definition of Angular component OnInit callback
+
+#### Router reducer
+As @angular-redux, the `initializeStore` method lets to initialize a routing reducer to track navigation changes, and to dispatch a page change event.
+
+The object to be passed to router variable of `initializeStore` needs these parameters:
+- `key`: a string to identify the substate in the store (it will be mounted dynamically)
+- `reducer`: the reducer to add that applies track navigation and page changes actions
+- `service`: a service that must implement an `init` method, that applies page changes reflections on router substate changes.
+
+For Angular applications, an implementation is provided with @redux-multipurpose/angular-router package.
+
