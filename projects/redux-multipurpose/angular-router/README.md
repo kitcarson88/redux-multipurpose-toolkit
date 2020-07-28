@@ -1,6 +1,6 @@
 # @redux-multipurpose/angular-router
 
-Redux Multipurpose is available as a package on NPM:
+Redux Multipurpose angular-router is available as a package on NPM:
 
     npm install @redux-multipurpose/angular-router
     
