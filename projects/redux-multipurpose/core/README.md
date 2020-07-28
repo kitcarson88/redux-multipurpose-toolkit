@@ -31,3 +31,12 @@ Here the list of included redux packages. Please refer to their own documentatio
 - [Redux persist](https://www.npmjs.com/package/redux-persist): it let to save the entire store state or some store substates datas using its internal storage built-in system based on localStorage or with custom storage implementations
 - [Redux logger](https://www.npmjs.com/package/redux-logger): it logs every action and store state change to facilitate development
 
+### Enhancements
+Under this section will be described enhanced functionalities of Redux Multipurpose store
+
+#### Decorators
+Similar to some [@angular-redux/store](https://www.npmjs.com/package/@angular-redux/store) decorators, Redux multipurpose let the developer to use these decorators:
+- `select`: that lets to bind a class variable to a store substate; in this way data can be accessed without calling select method directly on store
+- `get`: similar to select, it wraps previously described selectSync method to directly retrieve store substate
+- `dispatch`: binded to a class method, it lets to trigger an action dispatch; the method must return the action to be dispatched
+- `ReducerInjector` (only on Angular): binded to a component, it lets to dynamically add a reducer; it needs a definition of Angular component OnInit callback
