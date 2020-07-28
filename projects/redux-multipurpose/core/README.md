@@ -1,24 +1,23 @@
-# Core
+# @redux-multipurpose/core
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.11.
+## Installation
+Redux Multipurpose is available as a package on NPM:
 
-## Code scaffolding
+    npm install @redux-multipurpose/core
 
-Run `ng generate component component-name --project core` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project core`.
-> Note: Don't forget to add `--project core` or else it will be added to the default project in your `angular.json` file. 
+## Purpose
+The Redux Multipurpose core package is intended to:
+- ease the integration of a @reduxjs/toolkit based redux store
+- ease the integration of some redux subpackages commonly used
+- 
 
-## Build
+By a simple `initializeStore()` api the developer can initialize all store base parts (such as reducers, middlewares, enhancers, and devTools), and all redux subpackages included into the software suite.
 
-Run `ng build core` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Included redux packages:
+Here the list of included redux packages. Please refer to their own documentations to customize their in app integration.
 
-## Publishing
+- [Redux saga](https://www.npmjs.com/package/redux-saga): it's an extension of redux actions triggering, to create sagas; it aims to make application side effects easier to manage, more efficient to execute, easy to test, and better at handling failures; a saga let complex actions management such as to launch an action at the arrive of another, to sync some parallel triggered actions, etc.
+- [Redux observable](https://www.npmjs.com/package/redux-observable-es6-compat): it's a RxJS-based middleware for Redux; really similar to redux saga, it let to create epics; an epic is conceptually used to concatenate different actions of a same process; it's provided by redux-observable-es6-compat package due to angular project ES6 targeted compatibility
+- [Redux persist](https://www.npmjs.com/package/redux-persist): it let to save the entire store state or some store substates datas using its internal storage built-in system based on localStorage or with custom storage implementations
+- [Redux logger](https://www.npmjs.com/package/redux-logger): it logs every action and store state change to facilitate development
 
-After building your library with `ng build core`, go to the dist folder `cd dist/core` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test core` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
