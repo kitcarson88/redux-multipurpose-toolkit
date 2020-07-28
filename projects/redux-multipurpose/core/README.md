@@ -6,7 +6,10 @@ Redux Multipurpose is available as a package on NPM:
     npm install @redux-multipurpose/core
 
 ## Purpose
-The Redux Multipurpose package is intended to ease the integration of a @reduxjs/toolkit based redux store and its subpackages.
+The Redux Multipurpose core package is intended to:
+- ease the integration of a @reduxjs/toolkit based redux store
+- ease the integration of some redux subpackages commonly used
+- 
 
 By a simple `initializeStore()` api the developer can initialize all store base parts (such as reducers, middlewares, enhancers, and devTools), and all redux subpackages included into the software suite.
 
