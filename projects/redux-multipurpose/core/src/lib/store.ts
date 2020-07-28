@@ -159,7 +159,7 @@ export const store = {
     },
     addReducer: <S = any, A extends Action = AnyAction>(key: string, reducer: Reducer<S, A>) => {
         if (!key || dynamicReducers[key])
-            throw (`A reducer with key '${key}' is alreary injected. Injection aborted`);
+            throw (`A reducer with key '${key}' is already injected. Injection aborted`);
         
         dynamicReducers[key] = reducer;
         reduxStore.replaceReducer(combineReducers({ ...staticReducers, ...dynamicReducers }));
@@ -247,7 +247,7 @@ export function ReducerInjector(reducers: { key: string, reducer: Reducer }[]): 
                     {
                         store.addReducer(reducers[i].key, reducers[i].reducer);
                     }
-                    catch(error) {
+                    catch (error) {
                         //No error, simply reducer was injected yet
                     }
                 }
