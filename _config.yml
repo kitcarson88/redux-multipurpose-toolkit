@@ -1,1 +1,9 @@
 theme: jekyll-theme-cayman
+
+layout: page
+title: "README-CORE"
+permalink: /core/
+
+layout: page
+title: "README-ROUTER"
+permalink: /angular-router/
