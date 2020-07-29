@@ -1,4 +1,4 @@
-# @redux-multipurpose/angular-router
+# [@redux-multipurpose/angular-router](https://github.com/KitCarson88/redux-multipurpose-toolkit/tree/master/projects/redux-multipurpose/angular-router)
 
 Redux Multipurpose angular-router is available as a package on NPM:
 

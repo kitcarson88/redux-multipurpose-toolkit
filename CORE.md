@@ -1,4 +1,4 @@
-# @redux-multipurpose/core
+# [@redux-multipurpose/core](https://github.com/KitCarson88/redux-multipurpose-toolkit/tree/master/projects/redux-multipurpose/core)
 
 ## Installation
 Redux Multipurpose core is available as a package on NPM:
