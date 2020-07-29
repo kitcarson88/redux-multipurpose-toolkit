@@ -1,9 +1,1 @@
 theme: jekyll-theme-cayman
-
-layout: page
-title: "DOCS CORE"
-permalink: /core/
-
-layout: page
-title: "DOCS-ROUTER"
-permalink: /angular-router/
