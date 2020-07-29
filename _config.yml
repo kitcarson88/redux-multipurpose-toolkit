@@ -1,9 +1,9 @@
 theme: jekyll-theme-cayman
 
 layout: page
-title: "README CORE"
+title: "DOCS CORE"
 permalink: /core/
 
 layout: page
-title: "README ROUTER"
+title: "DOCS-ROUTER"
 permalink: /angular-router/
