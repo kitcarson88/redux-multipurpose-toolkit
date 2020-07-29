@@ -1,11 +1,28 @@
 {
   "name": "@redux-multipurpose/angular-router",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KitCarson88/redux-multipurpose-toolkit.git"
+  },
+  "keywords": [
+    "redux-multipurpose",
+    "redux",
+    "multipurpose",
+    "angular",
+    "router"
+  ],
+  "author": "Simone Colazzo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KitCarson88/redux-multipurpose-toolkit/issues"
+  },
+  "homepage": "https://kitcarson88.github.io/redux-multipurpose-toolkit/",
   "peerDependencies": {
     "@angular/common": "~10.0.5",
     "@angular/core": "~10.0.5",
     "@angular/router": "~10.0.5",
-    "@redux-multipurpose/core": "~1.0.0",
+    "@redux-multipurpose/core": "~1.0.1",
     "rxjs": "^6.6.0"
   },
   "dependencies": {

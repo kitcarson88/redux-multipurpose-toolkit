@@ -1,6 +1,22 @@
 {
   "name": "@redux-multipurpose/core",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KitCarson88/redux-multipurpose-toolkit.git"
+  },
+  "keywords": [
+    "redux-multipurpose",
+    "redux",
+    "multipurpose",
+    "core"
+  ],
+  "author": "Simone Colazzo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KitCarson88/redux-multipurpose-toolkit/issues"
+  },
+  "homepage": "https://kitcarson88.github.io/redux-multipurpose-toolkit/",
   "peerDependencies": {
     "@reduxjs/toolkit": "^1.4.0",
     "flux-standard-action": "^2.1.1",
