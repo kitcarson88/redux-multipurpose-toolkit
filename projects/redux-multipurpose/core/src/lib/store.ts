@@ -1,4 +1,4 @@
-import { OnInit } from '@angular/core';
+import { OnInit, OnDestroy } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map, distinctUntilChanged } from 'rxjs/operators';
@@ -228,15 +228,19 @@ export const dispatch = () => {
     }
 };
 
-interface BodyClassRequireOnInit extends OnInit {
+interface InjectorRequireOnInit extends OnInit {
+}
+interface IFunction { 
+  new(...args: any[]): InjectorRequireOnInit;
+}
+interface DeallocatorRequireOnDestroy extends OnDestroy {
+}
+interface DFunction { 
+  new(...args: any[]): DeallocatorRequireOnDestroy;
 }
 
-interface TFunction { 
-  new(...args: any[]): BodyClassRequireOnInit;
-}
-
-export function ReducerInjector(reducers: { key: string, reducer: Reducer }[]): <T extends TFunction>(constructor: T) => T {
-    return function decorator<T extends TFunction>(constructor: T): T {
+export function ReducerInjector(reducers: { key: string, reducer: Reducer }[]): <T extends IFunction>(constructor: T) => T {
+    return function decorator<T extends IFunction>(constructor: T): T {
         return class extends constructor
         {
             ngOnInit(): void
@@ -257,4 +261,26 @@ export function ReducerInjector(reducers: { key: string, reducer: Reducer }[]): 
         };
     };
 }
-  
+
+export function ReducerDeallocator(reducers: { key: string }[]): <T extends DFunction>(constructor: T) => T {
+    return function decorator<T extends DFunction>(constructor: T): T {
+        return class extends constructor
+        {
+            ngOnDestroy(): void
+            {
+                for (let i = 0; i < reducers.length; ++i)
+                {
+                    try
+                    {
+                        store.removeReducer(reducers[i].key);
+                    }
+                    catch (error) {
+                        //No error, simply reducer was injected yet
+                    }
+                }
+
+                super.ngOnDestroy();
+            }
+        };
+    };
+}
