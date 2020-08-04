@@ -6,7 +6,7 @@ import { map, distinctUntilChanged } from 'rxjs/operators';
 import { Selector, Action, configureStore, createSelector, getDefaultMiddleware, combineReducers } from '@reduxjs/toolkit';
 import { Store, Reducer, AnyAction } from 'redux';
 import { FluxStandardAction } from 'flux-standard-action';
-import { createEpicMiddleware } from 'redux-observable-es6-compat';
+import { createEpicMiddleware, Epic, combineEpics } from 'redux-observable-es6-compat';
 import createSagaMiddleware from 'redux-saga';
 import { persistStore } from 'redux-persist';
 import { createLogger } from 'redux-logger';
@@ -45,6 +45,10 @@ var reduxStore: Store;
 var staticReducers = {};
 var dynamicReducers = {};
 
+var epicMiddleware;
+var staticEpics;
+var dynamicEpics = {};
+
 export const initializeStore = (options: MultipurposeStoreOptions) => {
     if (reduxStore)
         throw Error("A redux store is initialized yet. Cannot initialize another one");
@@ -64,7 +68,6 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
     } = options;
 
     let middleware = [];
-    let epicMiddleware;
     let sagaMiddleware;
 
     middleware = initializeWithDefaultMiddleware(defaultMiddlewareOptions);
@@ -108,7 +111,10 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
 
     //Executing epics
     if (epicMiddleware)
-        epicMiddleware.run(epics());
+    {
+        staticEpics = epics;
+        epicMiddleware.run(staticEpics());
+    }
 
     //Executing sagas
     if (sagaMiddleware)
@@ -170,6 +176,40 @@ export const store = {
 
         delete dynamicReducers[key];
         reduxStore.replaceReducer(combineReducers({ ...staticReducers, ...dynamicReducers }));
+    },
+    addEpic: <Input extends Action = any, Output extends Input = Input, State = any, Dependencies = any>(key: string, epic: Epic<Input, Output, State, Dependencies>) => {
+        if (!key || dynamicEpics[key])
+            throw (`An epic with key '${key}' is already injected. Injection aborted`);
+
+        if (epicMiddleware)
+        {
+            dynamicEpics[key] = epic;
+            
+            let epicsArray = Object.values(dynamicEpics);
+            epicMiddleware.run(combineEpics(
+                staticEpics,
+                combineEpics(epicsArray)
+            ));
+        }
+        else
+            throw ("The epics functionality was not enabled on the store.\nPlease pass 'epics' parameter to initializeStore with true boolean, or passing some combined epics");
+    },
+    removeEpic: (key: string) => {
+        if (!key || dynamicEpics[key])
+            throw (`No epic with key '${key}' found. Remove aborted`);
+
+        if (epicMiddleware)
+        {
+            delete dynamicEpics[key];
+
+            let epicsArray = Object.values(dynamicEpics);
+            epicMiddleware.run(combineEpics(
+                staticEpics,
+                combineEpics(epicsArray)
+            ));
+        }
+        else
+            throw ("The epics functionality was not enabled on the store.\nPlease pass 'epics' parameter to initializeStore with true boolean, or passing some combined epics");
     }
 };
 
@@ -276,6 +316,56 @@ export function ReducerDeallocator(reducers: { key: string }[]): <T extends DFun
                     }
                     catch (error) {
                         //No error, simply reducer was injected yet
+                    }
+                }
+
+                super.ngOnDestroy();
+            }
+        };
+    };
+}
+
+export function EpicInjector(epics: { key: string, epic: Epic }[]): <T extends IFunction>(constructor: T) => T {
+    return function decorator<T extends IFunction>(constructor: T): T {
+        return class extends constructor
+        {
+            ngOnInit(): void
+            {
+                for (let i = 0; i < epics.length; ++i)
+                {
+                    try
+                    {
+                        store.addEpic(epics[i].key, epics[i].epic);
+                    }
+                    catch (error) {
+                        //Catch and relauch error only if epics were not enabled on store
+                        if (error.contains("The epics functionality was not enabled"))
+                            throw error;
+                    }
+                }
+
+                super.ngOnInit();
+            }
+        };
+    };
+}
+
+export function EpicDeallocator(epics: { key: string }[]): <T extends DFunction>(constructor: T) => T {
+    return function decorator<T extends DFunction>(constructor: T): T {
+        return class extends constructor
+        {
+            ngOnDestroy(): void
+            {
+                for (let i = 0; i < epics.length; ++i)
+                {
+                    try
+                    {
+                        store.removeEpic(epics[i].key);
+                    }
+                    catch (error) {
+                        //Catch and relauch error only if epics were not enabled on store
+                        if (error.contains("The epics functionality was not enabled"))
+                        throw error;
                     }
                 }
 
