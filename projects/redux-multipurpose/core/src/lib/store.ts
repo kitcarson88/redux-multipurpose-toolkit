@@ -186,7 +186,10 @@ export const store = {
             dynamicEpics[key] = epic;
             
             let epicsArray = Object.values(dynamicEpics);
-            epicMiddleware.run(combineEpics([...staticEpics, epicsArray]));
+            epicMiddleware.run(combineEpics(
+                staticEpics,
+                combineEpics([...staticEpics, epicsArray])
+            ));
         }
         else
             throw ("The epics functionality was not enabled on the store.\nPlease pass 'epics' parameter to initializeStore with true boolean, or passing some combined epics");
@@ -200,7 +203,10 @@ export const store = {
             delete dynamicEpics[key];
 
             let epicsArray = Object.values(dynamicEpics);
-            epicMiddleware.run(combineEpics([...staticEpics, epicsArray]));
+            epicMiddleware.run(combineEpics(
+                staticEpics,
+                combineEpics(epicsArray)
+            ));
         }
         else
             throw ("The epics functionality was not enabled on the store.\nPlease pass 'epics' parameter to initializeStore with true boolean, or passing some combined epics");
