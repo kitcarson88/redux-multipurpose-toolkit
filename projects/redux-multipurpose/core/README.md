@@ -21,7 +21,9 @@ Redux Multipurpose store includes these APIs:
 - `selectSync()`: similar to `select`, but returns the data directly, not as an Observable
 - `dispatch()`: that lets to dispatch to the store an action
 - `addReducer()`: that lets to add dynamically a new reducer to the store binding it with a string key
-- `removeReducer()`: that lets to remove a dynamic reducer previously added; it can't remove reducers not dynamically added 
+- `removeReducer()`: that lets to remove a dynamic reducer previously added; it can't remove reducers not dynamically added
+- `addEpic()`: that lets to add dynamically a new epic to the store binding it with a string key
+- `removeEpic()`: that lets to remove a dynamic epic previously added; it can't remove epics not dynamically added 
 
 ### Included redux packages:
 Here the list of included redux packages. Please refer to their own documentations to customize their in app integration.
@@ -40,6 +42,9 @@ Similar to some [@angular-redux/store](https://www.npmjs.com/package/@angular-re
 - `get`: similar to select, it wraps previously described selectSync method to directly retrieve store substate
 - `dispatch`: binded to a class method, it lets to trigger an action dispatch; the method must return the action to be dispatched
 - `ReducerInjector` (only on Angular): binded to a component, it lets to dynamically add a reducer; it needs a definition of Angular component OnInit callback
+- `ReducerDeallocator` (only on Angular): binded to a component, it lets to dynamically remove a dynamic reducer; it needs a definition of Angular component OnDestroy callback
+- `EpicInjector` (only on Angular): binded to a component, it lets to dynamically add an epic; it needs a definition of Angular component OnInit callback
+- `EpicDeallocator` (only on Angular): binded to a component, it lets to dynamically remove a dynamic epic; it needs a definition of Angular component OnDestroy callback
 
 #### Router reducer
 As @angular-redux, the `initializeStore` method lets to initialize a routing reducer to track navigation changes, and to dispatch a page change event.
@@ -49,7 +54,7 @@ The object to be passed to router variable of `initializeStore` needs these para
 - `reducer`: the reducer to add that applies track navigation and page changes actions
 - `service`: a service that must implement an `init` method, that applies page changes reflections on router substate changes.
 
-For Angular applications, an implementation is provided with @redux-multipurpose/angular-router package.
+An implementation is provided with @redux-multipurpose/angular-router package, only suitable for angular applications.
 
 #### Other utilities
 The utils directory contains some store utilities that can be used on store common substates configurations.
