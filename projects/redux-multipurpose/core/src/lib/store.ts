@@ -113,7 +113,7 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
     if (epicMiddleware)
     {
         staticEpics = epics;
-        epicMiddleware.run(staticEpics());
+        epicMiddleware.run(combineEpics(staticEpics));
     }
 
     //Executing sagas
@@ -186,7 +186,7 @@ export const store = {
             dynamicEpics[key] = epic;
             
             let epicsArray = Object.values(dynamicEpics);
-            epicMiddleware.run(combineEpics([staticEpics, ...epicsArray]));
+            epicMiddleware.run(combineEpics([...staticEpics, ...epicsArray]));
         }
         else
             throw ("The epics functionality was not enabled on the store.\nPlease pass 'epics' parameter to initializeStore with true boolean, or passing some combined epics");
@@ -200,7 +200,7 @@ export const store = {
             delete dynamicEpics[key];
 
             let epicsArray = Object.values(dynamicEpics);
-            epicMiddleware.run(combineEpics([staticEpics, ...epicsArray]));
+            epicMiddleware.run(combineEpics([...staticEpics, ...epicsArray]));
         }
         else
             throw ("The epics functionality was not enabled on the store.\nPlease pass 'epics' parameter to initializeStore with true boolean, or passing some combined epics");
@@ -331,9 +331,10 @@ export function EpicInjector(epics: { key: string, epic: Epic }[]): <T extends I
                     {
                         store.addEpic(epics[i].key, epics[i].epic);
                     }
-                    catch (error) {
-                        //Catch and relauch error only if epics were not enabled on store
-                        if (error.contains("The epics functionality was not enabled"))
+                    catch (error)
+                    {
+                        //Catch and relaunch error only if epics were not enabled on store
+                        if (error.indexOf("The epics functionality was not enabled") >= 0)
                             throw error;
                     }
                 }
@@ -358,9 +359,10 @@ export function EpicDeallocator(epicsKeys: string[]): <T extends DFunction>(cons
                     {
                         store.removeEpic(epicsKeys[i]);
                     }
-                    catch (error) {
-                        //Catch and relauch error only if epics were not enabled on store
-                        if (error.contains("The epics functionality was not enabled"))
+                    catch (error)
+                    {
+                        //Catch and relaunch error only if epics were not enabled on store
+                        if (error.indexOf("The epics functionality was not enabled") >= 0)
                             throw error;
                     }
                 }
