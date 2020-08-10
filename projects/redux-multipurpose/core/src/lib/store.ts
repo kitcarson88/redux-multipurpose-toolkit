@@ -302,24 +302,24 @@ export function ReducerInjector(reducers: { key: string, reducer: Reducer }[]): 
     };
 }
 
-export function ReducerDeallocator(reducers: { key: string }[]): <T extends DFunction>(constructor: T) => T {
+export function ReducerDeallocator(reducersKeys: string[]): <T extends DFunction>(constructor: T) => T {
     return function decorator<T extends DFunction>(constructor: T): T {
         return class extends constructor
         {
             ngOnDestroy(): void
             {
-                for (let i = 0; i < reducers.length; ++i)
+                super.ngOnDestroy();
+
+                for (let i = 0; i < reducersKeys.length; ++i)
                 {
                     try
                     {
-                        store.removeReducer(reducers[i].key);
+                        store.removeReducer(reducersKeys[i]);
                     }
                     catch (error) {
-                        //No error, simply reducer was injected yet
+                        //No error, simply reducer was already detached
                     }
                 }
-
-                super.ngOnDestroy();
             }
         };
     };
@@ -350,26 +350,26 @@ export function EpicInjector(epics: { key: string, epic: Epic }[]): <T extends I
     };
 }
 
-export function EpicDeallocator(epics: { key: string }[]): <T extends DFunction>(constructor: T) => T {
+export function EpicDeallocator(epicsKeys: string[]): <T extends DFunction>(constructor: T) => T {
     return function decorator<T extends DFunction>(constructor: T): T {
         return class extends constructor
         {
             ngOnDestroy(): void
             {
-                for (let i = 0; i < epics.length; ++i)
+                super.ngOnDestroy();
+
+                for (let i = 0; i < epicsKeys.length; ++i)
                 {
                     try
                     {
-                        store.removeEpic(epics[i].key);
+                        store.removeEpic(epicsKeys[i]);
                     }
                     catch (error) {
                         //Catch and relauch error only if epics were not enabled on store
                         if (error.contains("The epics functionality was not enabled"))
-                        throw error;
+                            throw error;
                     }
                 }
-
-                super.ngOnDestroy();
             }
         };
     };
