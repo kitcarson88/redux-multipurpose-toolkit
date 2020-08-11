@@ -12,7 +12,7 @@ export interface MultipurposeStoreOptions<S = any, A extends Action = AnyAction>
         serializableCheck: boolean
     },
     sagas?: any,
-    epics?: any[],
+    epics?: any,
     enablePersistence?: boolean,
     router: { key: string; reducer: Reducer, service }
     logLevel?: string
