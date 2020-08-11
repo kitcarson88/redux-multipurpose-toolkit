@@ -22,8 +22,8 @@ Redux Multipurpose store includes these APIs:
 - `dispatch()`: that lets to dispatch to the store an action
 - `addReducer()`: that lets to add dynamically a new reducer to the store binding it with a string key
 - `removeReducer()`: that lets to remove a dynamic reducer previously added; it can't remove reducers not dynamically added
-- `addEpic()`: that lets to add dynamically a new epic to the store binding it with a string key
-- `removeEpic()`: that lets to remove a dynamic epic previously added; it can't remove epics not dynamically added 
+<!--- `addEpic()`: that lets to add dynamically a new epic to the store binding it with a string key
+- `removeEpic()`: that lets to remove a dynamic epic previously added; it can't remove epics not dynamically added -->
 
 ### Included redux packages:
 Here the list of included redux packages. Please refer to their own documentations to customize their in app integration.
@@ -43,8 +43,8 @@ Similar to some [@angular-redux/store](https://www.npmjs.com/package/@angular-re
 - `dispatch`: binded to a class method, it lets to trigger an action dispatch; the method must return the action to be dispatched
 - `ReducerInjector` (only on Angular): binded to a component, it lets to dynamically add a reducer; it needs a definition of Angular component OnInit callback
 - `ReducerDeallocator` (only on Angular): binded to a component, it lets to dynamically remove a dynamic reducer; it needs a definition of Angular component OnDestroy callback
-- `EpicInjector` (only on Angular): binded to a component, it lets to dynamically add an epic; it needs a definition of Angular component OnInit callback
-- `EpicDeallocator` (only on Angular): binded to a component, it lets to dynamically remove a dynamic epic; it needs a definition of Angular component OnDestroy callback
+<!--- `EpicInjector` (only on Angular): binded to a component, it lets to dynamically add an epic; it needs a definition of Angular component OnInit callback
+- `EpicDeallocator` (only on Angular): binded to a component, it lets to dynamically remove a dynamic epic; it needs a definition of Angular component OnDestroy callback-->
 
 #### Router reducer
 As @angular-redux, the `initializeStore` method lets to initialize a routing reducer to track navigation changes, and to dispatch a page change event.

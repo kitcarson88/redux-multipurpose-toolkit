@@ -46,8 +46,8 @@ var staticReducers = {};
 var dynamicReducers = {};
 
 var epicMiddleware;
-var staticEpics;
-var dynamicEpics = {};
+//var staticEpics;
+//var dynamicEpics = {};
 
 export const initializeStore = (options: MultipurposeStoreOptions) => {
     if (reduxStore)
@@ -110,13 +110,11 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
     });
 
     //Executing epics
-    if (epicMiddleware && epics.length)
+    if (epicMiddleware)
     {
-        staticEpics = epics;
-        epicMiddleware.run(combineEpics(staticEpics));
+        //staticEpics = epics;
+        epicMiddleware.run(epics);
     }
-    else
-        staticEpics = [];
 
     //Executing sagas
     if (sagaMiddleware)
@@ -179,7 +177,7 @@ export const store = {
         delete dynamicReducers[key];
         reduxStore.replaceReducer(combineReducers({ ...staticReducers, ...dynamicReducers }));
     },
-    addEpic: <Input extends Action = any, Output extends Input = Input, State = any, Dependencies = any>(key: string, epic: Epic<Input, Output, State, Dependencies>) => {
+    /*addEpic: <Input extends Action = any, Output extends Input = Input, State = any, Dependencies = any>(key: string, epic: Epic<Input, Output, State, Dependencies>) => {
         if (!key || dynamicEpics[key])
             throw (`An epic with key '${key}' is already injected. Injection aborted`);
 
@@ -206,7 +204,7 @@ export const store = {
         }
         else
             throw ("The epics functionality was not enabled on the store.\nPlease pass 'epics' parameter to initializeStore with true boolean, or passing some combined epics");
-    }
+    }*/
 };
 
 export const select = (selector) => {
@@ -321,7 +319,7 @@ export function ReducerDeallocator(reducersKeys: string[]): <T extends DFunction
     };
 }
 
-export function EpicInjector(epics: { key: string, epic: Epic }[]): <T extends IFunction>(constructor: T) => T {
+/*export function EpicInjector(epics: { key: string, epic: Epic }[]): <T extends IFunction>(constructor: T) => T {
     return function decorator<T extends IFunction>(constructor: T): T {
         return class extends constructor
         {
@@ -371,4 +369,4 @@ export function EpicDeallocator(epicsKeys: string[]): <T extends DFunction>(cons
             }
         };
     };
-}
+}*/
