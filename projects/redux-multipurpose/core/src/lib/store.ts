@@ -110,11 +110,13 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
     });
 
     //Executing epics
-    if (epicMiddleware)
+    if (epicMiddleware && epics.length)
     {
         staticEpics = epics;
         epicMiddleware.run(combineEpics(staticEpics));
     }
+    else
+        staticEpics = [];
 
     //Executing sagas
     if (sagaMiddleware)
@@ -334,7 +336,7 @@ export function EpicInjector(epics: { key: string, epic: Epic }[]): <T extends I
                     catch (error)
                     {
                         //Catch and relaunch error only if epics were not enabled on store
-                        if (error.indexOf("The epics functionality was not enabled") >= 0)
+                        if (typeof error === 'string' && error.indexOf("The epics functionality was not enabled") >= 0)
                             throw error;
                     }
                 }
@@ -362,7 +364,7 @@ export function EpicDeallocator(epicsKeys: string[]): <T extends DFunction>(cons
                     catch (error)
                     {
                         //Catch and relaunch error only if epics were not enabled on store
-                        if (error.indexOf("The epics functionality was not enabled") >= 0)
+                        if (typeof error === 'string' && error.indexOf("The epics functionality was not enabled") >= 0)
                             throw error;
                     }
                 }
