@@ -124,7 +124,7 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
         }
     }
 
-    middleware = initializeWithDefaultMiddleware(defaultMiddlewareOptions);
+    middleware = initializeWithDefaultMiddleware(middlewareOptions);
 
     if (middleware)
         middleware = [...middleware, ...middlewares];
