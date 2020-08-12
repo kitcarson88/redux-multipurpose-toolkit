@@ -1,4 +1,13 @@
-import { ConfigureEnhancersCallback, StoreEnhancer, DeepPartial, Reducer, Action, AnyAction, ReducersMapObject } from '@reduxjs/toolkit';
+import {
+    StoreEnhancer,
+    DeepPartial,
+    Reducer,
+    Action,
+    AnyAction,
+    ReducersMapObject,
+    ImmutableStateInvariantMiddlewareOptions,
+    SerializableStateInvariantMiddlewareOptions
+} from '@reduxjs/toolkit';
 
 export interface MultipurposeStoreOptions<S = any, A extends Action = AnyAction> {
     reducers: ReducersMapObject<S, any>,
@@ -7,9 +16,9 @@ export interface MultipurposeStoreOptions<S = any, A extends Action = AnyAction>
     preloadedState?: DeepPartial<S extends any ? S : S>,
     enhancers?: StoreEnhancer[],
     defaultMiddlewareOptions?: {
-        thunk: boolean,
-        immutableCheck: boolean,
-        serializableCheck: boolean
+        thunk: any,
+        immutableCheck: boolean | ImmutableStateInvariantMiddlewareOptions,
+        serializableCheck: boolean | SerializableStateInvariantMiddlewareOptions
     },
     sagas?: any,
     epics?: any,
