@@ -16,9 +16,9 @@ export interface MultipurposeStoreOptions<S = any, A extends Action = AnyAction>
     preloadedState?: DeepPartial<S extends any ? S : S>,
     enhancers?: StoreEnhancer[],
     defaultMiddlewareOptions?: {
-        thunk: any,
-        immutableCheck: boolean | ImmutableStateInvariantMiddlewareOptions,
-        serializableCheck: boolean | SerializableStateInvariantMiddlewareOptions
+        thunk?: any,
+        immutableCheck?: boolean | ImmutableStateInvariantMiddlewareOptions,
+        serializableCheck?: boolean | SerializableStateInvariantMiddlewareOptions
     },
     sagas?: any,
     epics?: any,
