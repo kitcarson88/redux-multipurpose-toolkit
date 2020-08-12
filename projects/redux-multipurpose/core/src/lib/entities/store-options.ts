@@ -8,6 +8,12 @@ import {
     ImmutableStateInvariantMiddlewareOptions,
     SerializableStateInvariantMiddlewareOptions
 } from '@reduxjs/toolkit';
+import { IResponsiveReducerOptions, IBreakPoints } from 'redux-responsive';
+
+export interface ResponsivenessOptions {
+    breakpoints: IBreakPoints,
+    options?: IResponsiveReducerOptions<IBreakPoints, {}>
+}
 
 export interface MultipurposeStoreOptions<S = any, A extends Action = AnyAction> {
     reducers: ReducersMapObject<S, any>,
@@ -23,6 +29,7 @@ export interface MultipurposeStoreOptions<S = any, A extends Action = AnyAction>
     sagas?: any,
     epics?: any,
     enablePersistence?: boolean,
-    router: { key: string; reducer: Reducer, service }
+    enableResponsiveness?: boolean | ResponsivenessOptions,
+    router: { key: string; reducer: Reducer, service },
     logLevel?: string
 }

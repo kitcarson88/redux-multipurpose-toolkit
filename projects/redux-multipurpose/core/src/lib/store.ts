@@ -6,9 +6,18 @@ import { map, distinctUntilChanged } from 'rxjs/operators';
 import { Selector, Action, configureStore, createSelector, getDefaultMiddleware, combineReducers } from '@reduxjs/toolkit';
 import { Store, Reducer, AnyAction } from 'redux';
 import { FluxStandardAction } from 'flux-standard-action';
-import { createEpicMiddleware, Epic, combineEpics } from 'redux-observable-es6-compat';
+import { createEpicMiddleware/*, Epic, combineEpics*/ } from 'redux-observable-es6-compat';
 import createSagaMiddleware from 'redux-saga';
-import { persistStore } from 'redux-persist';
+import {
+    persistStore,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER
+} from 'redux-persist';
+import { createResponsiveStateReducer, responsiveStateReducer, responsiveStoreEnhancer } from 'redux-responsive';
 import { createLogger } from 'redux-logger';
 
 import { MultipurposeStoreOptions } from './entities/store-options';
@@ -63,12 +72,57 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
         sagas,
         epics,
         enablePersistence,
+        enableResponsiveness,
         router,
         logLevel
     } = options;
 
+    let enhancer = enhancers;
     let middleware = [];
     let sagaMiddleware;
+
+    let middlewareOptions = defaultMiddlewareOptions;
+    if (enablePersistence)
+    {
+        if (!middlewareOptions)
+            middlewareOptions = {};
+        if (!middlewareOptions.serializableCheck || typeof middlewareOptions === 'boolean')
+            middlewareOptions.serializableCheck = {};
+        if (typeof middlewareOptions.serializableCheck === 'object')
+        {
+            if (!middlewareOptions.serializableCheck.ignoredActions)
+                middlewareOptions.serializableCheck.ignoredActions = [];
+            
+            if (!middlewareOptions.serializableCheck.ignoredActions.indexOf(FLUSH))
+                middlewareOptions.serializableCheck.ignoredActions.push(FLUSH);
+            if (!middlewareOptions.serializableCheck.ignoredActions.indexOf(REHYDRATE))
+                middlewareOptions.serializableCheck.ignoredActions.push(REHYDRATE);
+            if (!middlewareOptions.serializableCheck.ignoredActions.indexOf(PAUSE))
+                middlewareOptions.serializableCheck.ignoredActions.push(PAUSE);
+            if (!middlewareOptions.serializableCheck.ignoredActions.indexOf(PERSIST))
+                middlewareOptions.serializableCheck.ignoredActions.push(PERSIST);
+            if (!middlewareOptions.serializableCheck.ignoredActions.indexOf(PURGE))
+                middlewareOptions.serializableCheck.ignoredActions.push(PURGE);
+            if (!middlewareOptions.serializableCheck.ignoredActions.indexOf(REGISTER))
+                middlewareOptions.serializableCheck.ignoredActions.push(REGISTER);
+        }
+    }
+
+    if (enableResponsiveness)
+    {
+        if (!middlewareOptions)
+            middlewareOptions = {};
+        if (!middlewareOptions.serializableCheck || typeof middlewareOptions === 'boolean')
+            middlewareOptions.serializableCheck = {};
+        if (typeof middlewareOptions.serializableCheck === 'object')
+        {
+            if (!middlewareOptions.serializableCheck.ignoredActions)
+                middlewareOptions.serializableCheck.ignoredActions = [];
+            
+            if (!middlewareOptions.serializableCheck.ignoredActions.indexOf("redux-responsive/CALCULATE_RESPONSIVE_STATE"))
+                middlewareOptions.serializableCheck.ignoredActions.push("redux-responsive/CALCULATE_RESPONSIVE_STATE");
+        }
+    }
 
     middleware = initializeWithDefaultMiddleware(defaultMiddlewareOptions);
 
@@ -93,11 +147,25 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
         middleware = [...middleware, loggerMiddleware ];
     }
 
-    /*let enhancer;
-    if (!enhancers)
-        enhancer = [];
-    else
-        enhancer = [...enhancers];*/
+    if (enableResponsiveness)
+    {
+        let browserReducer;
+
+        if (typeof enableResponsiveness === 'object' && enableResponsiveness.breakpoints)
+            browserReducer = createResponsiveStateReducer(enableResponsiveness.breakpoints, enableResponsiveness.options);
+        else
+            browserReducer = responsiveStateReducer;
+            
+        if (!reducers['browser'])
+            reducers['browser'] = browserReducer;
+        else
+            throw("A browser reducer already exists. Cannot enable redux-responsive module");
+
+        if (!enhancer)
+            enhancer = [ responsiveStoreEnhancer ];
+        else
+            enhancer = [ ...enhancer, responsiveStoreEnhancer ];
+    }
 
     staticReducers = reducers;
 
@@ -106,7 +174,7 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
         devTools,
         preloadedState,
         middleware,
-        enhancers
+        enhancers: enhancer
     });
 
     //Executing epics
