@@ -17,7 +17,7 @@ import {
     PURGE,
     REGISTER
 } from 'redux-persist';
-import { createResponsiveStateReducer, responsiveStateReducer, responsiveStoreEnhancer } from 'redux-responsive';
+import { createResponsiveStateReducer, responsiveStateReducer, responsiveStoreEnhancer, calculateResponsiveState } from 'redux-responsive';
 import { createLogger } from 'redux-logger';
 
 import { MultipurposeStoreOptions } from './entities/store-options';
@@ -199,6 +199,9 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
         store.addReducer(router.key, router.reducer);
         router.service.init();
     }
+
+    if (enableResponsiveness)
+        window.addEventListener('resize', () => store.dispatch(calculateResponsiveState(window)));
 };
 
 export const store = {
