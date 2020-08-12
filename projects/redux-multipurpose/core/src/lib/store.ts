@@ -93,17 +93,17 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
             if (!middlewareOptions.serializableCheck.ignoredActions)
                 middlewareOptions.serializableCheck.ignoredActions = [];
             
-            if (!middlewareOptions.serializableCheck.ignoredActions.indexOf(FLUSH))
+            if (middlewareOptions.serializableCheck.ignoredActions.indexOf(FLUSH) < 0)
                 middlewareOptions.serializableCheck.ignoredActions.push(FLUSH);
-            if (!middlewareOptions.serializableCheck.ignoredActions.indexOf(REHYDRATE))
+            if (middlewareOptions.serializableCheck.ignoredActions.indexOf(REHYDRATE) < 0)
                 middlewareOptions.serializableCheck.ignoredActions.push(REHYDRATE);
-            if (!middlewareOptions.serializableCheck.ignoredActions.indexOf(PAUSE))
+            if (middlewareOptions.serializableCheck.ignoredActions.indexOf(PAUSE) < 0)
                 middlewareOptions.serializableCheck.ignoredActions.push(PAUSE);
-            if (!middlewareOptions.serializableCheck.ignoredActions.indexOf(PERSIST))
+            if (middlewareOptions.serializableCheck.ignoredActions.indexOf(PERSIST) < 0)
                 middlewareOptions.serializableCheck.ignoredActions.push(PERSIST);
-            if (!middlewareOptions.serializableCheck.ignoredActions.indexOf(PURGE))
+            if (middlewareOptions.serializableCheck.ignoredActions.indexOf(PURGE) < 0)
                 middlewareOptions.serializableCheck.ignoredActions.push(PURGE);
-            if (!middlewareOptions.serializableCheck.ignoredActions.indexOf(REGISTER))
+            if (middlewareOptions.serializableCheck.ignoredActions.indexOf(REGISTER) < 0)
                 middlewareOptions.serializableCheck.ignoredActions.push(REGISTER);
         }
     }
@@ -119,7 +119,7 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
             if (!middlewareOptions.serializableCheck.ignoredActions)
                 middlewareOptions.serializableCheck.ignoredActions = [];
             
-            if (!middlewareOptions.serializableCheck.ignoredActions.indexOf("redux-responsive/CALCULATE_RESPONSIVE_STATE"))
+            if (middlewareOptions.serializableCheck.ignoredActions.indexOf("redux-responsive/CALCULATE_RESPONSIVE_STATE") < 0)
                 middlewareOptions.serializableCheck.ignoredActions.push("redux-responsive/CALCULATE_RESPONSIVE_STATE");
         }
     }
