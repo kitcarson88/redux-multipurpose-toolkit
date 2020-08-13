@@ -22,8 +22,7 @@ Redux Multipurpose store includes these APIs:
 - `dispatch()`: that lets to dispatch to the store an action
 - `addReducer()`: that lets to add dynamically a new reducer to the store binding it with a string key
 - `removeReducer()`: that lets to remove a dynamic reducer previously added; it can't remove reducers not dynamically added
-<!--- `addEpic()`: that lets to add dynamically a new epic to the store binding it with a string key
-- `removeEpic()`: that lets to remove a dynamic epic previously added; it can't remove epics not dynamically added -->
+- `replaceEpics()`: that lets to dynamically replace the root epic (obtained as combination of each single base epic)
 
 ### Included redux packages:
 Here the list of included redux packages. Please refer to their own documentations to customize their in app integration.
@@ -31,6 +30,7 @@ Here the list of included redux packages. Please refer to their own documentatio
 - [Redux saga](https://www.npmjs.com/package/redux-saga): it's an extension of redux actions triggering, to create sagas; it aims to make application side effects easier to manage, more efficient to execute, easy to test, and better at handling failures; a saga let complex actions management such as to launch an action at the arrive of another, to sync some parallel triggered actions, etc.
 - [Redux observable](https://www.npmjs.com/package/redux-observable-es6-compat): it's a RxJS-based middleware for Redux; really similar to redux saga, it let to create epics; an epic is conceptually used to concatenate different actions of a same process; it's provided by redux-observable-es6-compat package due to angular project ES6 targeted compatibility
 - [Redux persist](https://www.npmjs.com/package/redux-persist): it let to save the entire store state or some store substates datas using its internal storage built-in system based on localStorage or with custom storage implementations
+- [Redux responsive](https://www.npmjs.com/package/redux-responsive): it let to add a store substate to trace browser window resize events and to mantain current window size and resolution infos.
 - [Redux logger](https://www.npmjs.com/package/redux-logger): it logs every action and store state change to facilitate development
 
 ### Enhancements
@@ -43,8 +43,6 @@ Similar to some [@angular-redux/store](https://www.npmjs.com/package/@angular-re
 - `dispatch`: binded to a class method, it lets to trigger an action dispatch; the method must return the action to be dispatched
 - `ReducerInjector` (only on Angular): binded to a component, it lets to dynamically add a reducer; it needs a definition of Angular component OnInit callback
 - `ReducerDeallocator` (only on Angular): binded to a component, it lets to dynamically remove a dynamic reducer; it needs a definition of Angular component OnDestroy callback
-<!--- `EpicInjector` (only on Angular): binded to a component, it lets to dynamically add an epic; it needs a definition of Angular component OnInit callback
-- `EpicDeallocator` (only on Angular): binded to a component, it lets to dynamically remove a dynamic epic; it needs a definition of Angular component OnDestroy callback-->
 
 #### Router reducer
 As @angular-redux, the `initializeStore` method lets to initialize a routing reducer to track navigation changes, and to dispatch a page change event.
