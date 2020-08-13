@@ -6,7 +6,7 @@ import { map, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Selector, Action, configureStore, createSelector, getDefaultMiddleware, combineReducers } from '@reduxjs/toolkit';
 import { Store, Reducer, AnyAction } from 'redux';
 import { FluxStandardAction } from 'flux-standard-action';
-import { createEpicMiddleware, Epic, combineEpics} from 'redux-observable-es6-compat';
+import { createEpicMiddleware, Epic } from 'redux-observable-es6-compat';
 import createSagaMiddleware from 'redux-saga';
 import {
     persistStore,
@@ -251,36 +251,8 @@ export const store = {
         reduxStore.replaceReducer(combineReducers({ ...staticReducers, ...dynamicReducers }));
     },
     replaceEpics: (newRootEpic) => {
-        epics$.next(combineEpics(newRootEpic));
+        epics$.next(newRootEpic);
     }
-    /*addEpic: <Input extends Action = any, Output extends Input = Input, State = any, Dependencies = any>(key: string, epic: Epic<Input, Output, State, Dependencies>) => {
-        if (!key || dynamicEpics[key])
-            throw (`An epic with key '${key}' is already injected. Injection aborted`);
-
-        if (epicMiddleware)
-        {
-            dynamicEpics[key] = epic;
-            
-            let epicsArray = Object.values(dynamicEpics);
-            epicMiddleware.run(combineEpics([...staticEpics, ...epicsArray]));
-        }
-        else
-            throw ("The epics functionality was not enabled on the store.\nPlease pass 'epics' parameter to initializeStore with true boolean, or passing some combined epics");
-    },
-    removeEpic: (key: string) => {
-        if (!key || dynamicEpics[key])
-            throw (`No epic with key '${key}' found. Remove aborted`);
-
-        if (epicMiddleware)
-        {
-            delete dynamicEpics[key];
-
-            let epicsArray = Object.values(dynamicEpics);
-            epicMiddleware.run(combineEpics([...staticEpics, ...epicsArray]));
-        }
-        else
-            throw ("The epics functionality was not enabled on the store.\nPlease pass 'epics' parameter to initializeStore with true boolean, or passing some combined epics");
-    }*/
 };
 
 export const select = (selector) => {
@@ -394,55 +366,3 @@ export function ReducerDeallocator(reducersKeys: string[]): <T extends DFunction
         };
     };
 }
-
-/*export function EpicInjector(epics: { key: string, epic: Epic }[]): <T extends IFunction>(constructor: T) => T {
-    return function decorator<T extends IFunction>(constructor: T): T {
-        return class extends constructor
-        {
-            ngOnInit(): void
-            {
-                for (let i = 0; i < epics.length; ++i)
-                {
-                    try
-                    {
-                        store.addEpic(epics[i].key, epics[i].epic);
-                    }
-                    catch (error)
-                    {
-                        //Catch and relaunch error only if epics were not enabled on store
-                        if (typeof error === 'string' && error.indexOf("The epics functionality was not enabled") >= 0)
-                            throw error;
-                    }
-                }
-
-                super.ngOnInit();
-            }
-        };
-    };
-}
-
-export function EpicDeallocator(epicsKeys: string[]): <T extends DFunction>(constructor: T) => T {
-    return function decorator<T extends DFunction>(constructor: T): T {
-        return class extends constructor
-        {
-            ngOnDestroy(): void
-            {
-                super.ngOnDestroy();
-
-                for (let i = 0; i < epicsKeys.length; ++i)
-                {
-                    try
-                    {
-                        store.removeEpic(epicsKeys[i]);
-                    }
-                    catch (error)
-                    {
-                        //Catch and relaunch error only if epics were not enabled on store
-                        if (typeof error === 'string' && error.indexOf("The epics functionality was not enabled") >= 0)
-                            throw error;
-                    }
-                }
-            }
-        };
-    };
-}*/
