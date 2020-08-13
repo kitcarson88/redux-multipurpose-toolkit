@@ -6,8 +6,7 @@ import { map, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Selector, Action, configureStore, createSelector, getDefaultMiddleware, combineReducers } from '@reduxjs/toolkit';
 import { Store, Reducer, AnyAction } from 'redux';
 import { FluxStandardAction } from 'flux-standard-action';
-import { createEpicMiddleware,/*, Epic, combineEpics*/ 
-Epic} from 'redux-observable-es6-compat';
+import { createEpicMiddleware, Epic, combineEpics} from 'redux-observable-es6-compat';
 import createSagaMiddleware from 'redux-saga';
 import {
     persistStore,
@@ -252,7 +251,7 @@ export const store = {
         reduxStore.replaceReducer(combineReducers({ ...staticReducers, ...dynamicReducers }));
     },
     replaceEpics: (newRootEpic) => {
-        epics$.next(newRootEpic);
+        epics$.next(combineEpics(newRootEpic));
     }
     /*addEpic: <Input extends Action = any, Output extends Input = Input, State = any, Dependencies = any>(key: string, epic: Epic<Input, Output, State, Dependencies>) => {
         if (!key || dynamicEpics[key])
