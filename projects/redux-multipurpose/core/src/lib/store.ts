@@ -1,12 +1,13 @@
 import { OnInit, OnDestroy } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { map, distinctUntilChanged } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { map, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 import { Selector, Action, configureStore, createSelector, getDefaultMiddleware, combineReducers } from '@reduxjs/toolkit';
 import { Store, Reducer, AnyAction } from 'redux';
 import { FluxStandardAction } from 'flux-standard-action';
-import { createEpicMiddleware/*, Epic, combineEpics*/ } from 'redux-observable-es6-compat';
+import { createEpicMiddleware,/*, Epic, combineEpics*/ 
+Epic} from 'redux-observable-es6-compat';
 import createSagaMiddleware from 'redux-saga';
 import {
     persistStore,
@@ -54,9 +55,7 @@ var reduxStore: Store;
 var staticReducers = {};
 var dynamicReducers = {};
 
-var epicMiddleware;
-//var staticEpics;
-//var dynamicEpics = {};
+var epics$;
 
 export const initializeStore = (options: MultipurposeStoreOptions) => {
     if (reduxStore)
@@ -80,6 +79,7 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
     let enhancer = enhancers;
     let middleware = [];
     let sagaMiddleware;
+    let epicMiddleware;
 
     let middlewareOptions = defaultMiddlewareOptions;
     if (enablePersistence)
@@ -177,12 +177,15 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
         enhancers: enhancer
     });
 
+    epics$ = new BehaviorSubject(epics);
+    const hotReloadingEpics = (action$, state$, dependencies) =>
+        epics$.pipe(
+            switchMap((epic: Epic) => epic(action$, state$, dependencies))
+        );
+
     //Executing epics
     if (epicMiddleware)
-    {
-        //staticEpics = epics;
-        epicMiddleware.run(epics);
-    }
+        epicMiddleware.run(hotReloadingEpics);
 
     //Executing sagas
     if (sagaMiddleware)
@@ -248,6 +251,9 @@ export const store = {
         delete dynamicReducers[key];
         reduxStore.replaceReducer(combineReducers({ ...staticReducers, ...dynamicReducers }));
     },
+    replaceEpics: (newRootEpic) => {
+        epics$.next(newRootEpic);
+    }
     /*addEpic: <Input extends Action = any, Output extends Input = Input, State = any, Dependencies = any>(key: string, epic: Epic<Input, Output, State, Dependencies>) => {
         if (!key || dynamicEpics[key])
             throw (`An epic with key '${key}' is already injected. Injection aborted`);
