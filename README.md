@@ -9,4 +9,4 @@ The suite is composed from:
 - [@redux-multipurpose/angular-cli](https://kitcarson88.github.io/redux-multipurpose-angular-cli/): Redux Multipurpose command line tool to integrate redux-multipurpose in an Angular 2+ application. In addition to store creation functionalities, it let the developer to automate the integration of base files and lines of code to add new substates, epics, sagas and others redux stuff
 
 ## Usage
-To integrate the store with the @redux-multipurpose suite, please refer to the [redux-multipurpose-template](https://github.com/KitCarson88/redux-multipurpose-template) example repository.
+To integrate the store with the @redux-multipurpose tools, please refer to the [redux-multipurpose-template](https://github.com/KitCarson88/redux-multipurpose-template) example repository.
