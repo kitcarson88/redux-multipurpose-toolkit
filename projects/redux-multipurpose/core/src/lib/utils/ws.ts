@@ -69,7 +69,12 @@ export const prepareThunkActionReducers = (thunksWithStates: { thunk: any, subst
                 state[substate].loading = false;
 
                 if (adapter != null && adapter != undefined)
+                {
                     adapter.setAll(state[substate].data, action.payload);
+
+                    if (typeof state[substate].data.available !== 'undefined')
+                        state[substate].data.available = true;
+                }
                 else
                     state[substate].data = action.payload;
             },
