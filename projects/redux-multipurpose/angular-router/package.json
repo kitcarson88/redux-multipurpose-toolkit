@@ -1,6 +1,6 @@
 {
   "name": "@redux-multipurpose/angular-router",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KitCarson88/redux-multipurpose-toolkit.git"
