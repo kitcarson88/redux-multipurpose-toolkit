@@ -3,5 +3,17 @@
   "dest": "../../../dist/redux-multipurpose/core",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "@reduxjs/toolkit",
+    "flux-standard-action",
+    "redux",
+    "redux-logger",
+    "redux-observable-es6-compat",
+    "redux-persist",
+    "redux-persist-transform-encrypt",
+    "redux-responsive",
+    "redux-saga",
+    "tslib"
+  ]
 }
