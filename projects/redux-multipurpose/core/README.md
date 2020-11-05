@@ -41,8 +41,6 @@ Similar to some [@angular-redux/store](https://www.npmjs.com/package/@angular-re
 - `select`: that lets to bind a class variable to a store substate; in this way data can be accessed without calling select method directly on store
 - `get`: similar to select, it wraps previously described selectSync method to directly retrieve store substate
 - `dispatch`: binded to a class method, it lets to trigger an action dispatch; the method must return the action to be dispatched
-- `ReducerInjector` (only on Angular): binded to a component, it lets to dynamically add a reducer; it needs a definition of Angular component OnInit callback
-- `ReducerDeallocator` (only on Angular): binded to a component, it lets to dynamically remove a dynamic reducer; it needs a definition of Angular component OnDestroy callback
 
 #### Router reducer
 As @angular-redux, the `initializeStore` method lets to initialize a routing reducer to track navigation changes, and to dispatch a page change event.
