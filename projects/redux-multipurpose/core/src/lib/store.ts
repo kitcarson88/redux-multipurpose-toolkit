@@ -1,5 +1,3 @@
-import { OnInit, OnDestroy } from '@angular/core';
-
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
@@ -309,60 +307,3 @@ export const dispatch = () => {
         }
     }
 };
-
-interface InjectorRequireOnInit extends OnInit {
-}
-interface IFunction { 
-  new(...args: any[]): InjectorRequireOnInit;
-}
-interface DeallocatorRequireOnDestroy extends OnDestroy {
-}
-interface DFunction { 
-  new(...args: any[]): DeallocatorRequireOnDestroy;
-}
-
-export function ReducerInjector(reducers: { key: string, reducer: Reducer }[]): <T extends IFunction>(constructor: T) => T {
-    return function decorator<T extends IFunction>(constructor: T): T {
-        return class extends constructor
-        {
-            ngOnInit(): void
-            {
-                for (let i = 0; i < reducers.length; ++i)
-                {
-                    try
-                    {
-                        store.addReducer(reducers[i].key, reducers[i].reducer);
-                    }
-                    catch (error) {
-                        //No error, simply reducer was injected yet
-                    }
-                }
-
-                super.ngOnInit();
-            }
-        };
-    };
-}
-
-export function ReducerDeallocator(reducersKeys: string[]): <T extends DFunction>(constructor: T) => T {
-    return function decorator<T extends DFunction>(constructor: T): T {
-        return class extends constructor
-        {
-            ngOnDestroy(): void
-            {
-                super.ngOnDestroy();
-
-                for (let i = 0; i < reducersKeys.length; ++i)
-                {
-                    try
-                    {
-                        store.removeReducer(reducersKeys[i]);
-                    }
-                    catch (error) {
-                        //No error, simply reducer was already detached
-                    }
-                }
-            }
-        };
-    };
-}
