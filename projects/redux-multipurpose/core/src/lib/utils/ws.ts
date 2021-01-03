@@ -47,7 +47,7 @@ export const prepareThunk = <A,B,C>(state: string, id: string, callback: any) =>
     );
 };
 
-export const prepareThunkActionReducers = (thunksWithStates: { thunk: any, substate: string, adapter: EntityAdapter<any> }[]) => {
+export const prepareThunkActionReducers = (thunksWithStates: { thunk: any, substate: string, adapter: EntityAdapter<any> | null | undefined }[]) => {
     let reducers = {};
 
     for (let storeInfos of thunksWithStates)
