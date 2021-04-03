@@ -1,6 +1,6 @@
 {
   "name": "@redux-multipurpose/angular-router",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KitCarson88/redux-multipurpose-toolkit.git"
@@ -19,10 +19,15 @@
   },
   "homepage": "https://kitcarson88.github.io/redux-multipurpose-toolkit/",
   "peerDependencies": {
-    "@angular/common": "^10.1.6",
-    "@angular/core": "^10.1.6",
-    "@angular/router": "^10.1.6",
-    "@redux-multipurpose/core": "~1.5.1",
+    "@angular/animations": "^11.2.8",
+    "@angular/common": "^11.2.8",
+    "@angular/compiler": "^11.2.8",
+    "@angular/core": "^11.2.8",
+    "@angular/forms": "^11.2.8",
+    "@angular/platform-browser": "^11.2.8",
+    "@angular/platform-browser-dynamic": "^11.2.8",
+    "@angular/router": "^11.2.8",
+    "@redux-multipurpose/core": "~1.5.7",
     "rxjs": "^6.6.3"
   },
   "dependencies": {
