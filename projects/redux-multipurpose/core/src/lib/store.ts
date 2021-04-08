@@ -205,7 +205,7 @@ export const initializeStore = (options: MultipurposeStoreOptions) => {
 };
 
 export const store = {
-    getState$: (): Observable<any> =>{
+    getState$: (): Observable<any> => {
         return new Observable(function (observer) {
             observer.next(reduxStore.getState());
             
@@ -216,7 +216,10 @@ export const store = {
             return unsubscribe;
         });
     },
-    select: <R, T>(selector: Selector<R, T>):Observable<T> =>{
+    getState: () => {
+        return reduxStore.getState();
+    },
+    select: <R, T>(selector: Selector<R, T>): Observable<T> =>{
         return new Observable<T>(subscriber => {  
             const state$ = store.getState$();
 
