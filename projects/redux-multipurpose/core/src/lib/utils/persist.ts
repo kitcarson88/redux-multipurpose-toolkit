@@ -1,12 +1,15 @@
-import { Reducer } from 'redux';
-import { persistReducer } from 'redux-persist';
+import { Action, Reducer } from 'redux';
+import { PersistConfig, persistReducer } from 'redux-persist';
 import { encryptTransform } from 'redux-persist-transform-encrypt'
 
-export const createStoredReducer = (key: string, storage: any, reducer: Reducer) => {
-    return persistReducer({ key, storage }, reducer);
+type StateReconciler<S> =
+    (inboundState: any, state: S, reducedState: S, config: PersistConfig<S>) => S;
+
+export const createStoredReducer = <S, A extends Action = Action>(key: string, storage: any, reducer: Reducer, stateReconciler?: false | StateReconciler<S>) => {
+    return persistReducer<S, A>({ key, storage, stateReconciler }, reducer);
 };
 
-export const createSecureStoredReducer = (key: string, encryptKey: string, storage: any, reducer: Reducer) => {
+export const createSecureStoredReducer = <S, A extends Action = Action>(key: string, encryptKey: string, storage: any, reducer: Reducer, stateReconciler?: false | StateReconciler<S>) => {
     const encryptor = encryptTransform({
         secretKey: encryptKey,
         onError: (error) => {
@@ -14,10 +17,11 @@ export const createSecureStoredReducer = (key: string, encryptKey: string, stora
         }
     });
 
-    const secureStoragePersistConfig = {
+    const secureStoragePersistConfig: PersistConfig<S>  = {
         key,
         storage,
-        transforms: [ encryptor ]
+        transforms: [ encryptor ],
+        stateReconciler
     };
-    return persistReducer(secureStoragePersistConfig, reducer);
+    return persistReducer<S, A>(secureStoragePersistConfig, reducer);
 };

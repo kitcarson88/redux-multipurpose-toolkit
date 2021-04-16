@@ -1,6 +1,6 @@
 {
   "name": "@redux-multipurpose/core",
-  "version": "1.5.8",
+  "version": "1.6.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KitCarson88/redux-multipurpose-toolkit.git"
